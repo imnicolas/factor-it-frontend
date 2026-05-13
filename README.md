@@ -1,27 +1,62 @@
-# FrontCarritoFactorit
+# Desafío
+Se deberán crear tres tipos de carritos, el COMUN, el promocionable por FECHA ESPECIAL y el promocionable por
+USUARIO VIP.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.13.
+# Contexto
+Cuando el usuario solicite crear un nuevo carrito la aplicación deberá distinguir o indicar a que tipo de carrito
+corresponde. 
 
-## Development server
+# No alcanzado por el sistema
+- No se podrán combinar las promociones. 
+(Por ej. Un carrito NO puede ser Usuario VIP y Promocionable por Fecha ESPECIAL a la vez)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- No se debe implementar formas de pagos, solo
+que se puedan visualizar los ítems del mismo.
 
-## Code scaffolding
+- No será necesario desarrollar ningún tipo de ABM, (ni de los productos, ni de fechas promocionables, ni de usuarios) Con solo contar con ellos en la base de datos estará bien.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Funcionalidades
+Las funcionalidades que se deberán mostrar son:
+- crear un carrito nuevo
+- eliminar un carrito
+- agregar y eliminar productos del carrito
+- consultar el estado del carrito (que nos dará el total a pagar).
 
-## Build
+El servicio deberá contar con un parámetro que permita simular la fecha.
+Si el cliente completo la compra, deberá quedar registrado. Sino se concretó la compra, el carrito automáticamente se
+destruye.
+El cliente podrá realizar varias compras en el mismo día.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+El frontend deberá simular el envío de parámetros con la correcta visualización del funcionamiento de los request. Por
+ejemplo, agregar y eliminar cantidades de productos, agregar y eliminar un producto, eliminar carrito, finalizar compra del
+carrito, consultar clientes VIP, clientes que pasaron a ser VIP en un determinado mes, clientes que dejaron de ser VIP en
+un determinado mes.
 
-## Running unit tests
+# Reglas de negocio.
+Para calcular el valor del carrito se debe tener en cuenta:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- <b>Si se compran</b> exactamente 4 productos: Se hace un descuento general del 25%.
+- <b>Si se compran</b> más de 10 productos: Se le realizará además un descuento de 100.
+- Si el carrito <b>es promocionable por fecha especial</b>: Se hace un descuento general de 300.
+- Si el carrito <b>es VIP</b>: Se bonifica el producto más barato y se hace un descuento general de 500.
 
-## Running end-to-end tests
+# Cliente reglas.
+<b>Si el cliente</b> en un determinado mes, <b>realizó</b> compras por más de 10.000, pasa a ser considerado VIP en su próxima
+compra. (considerar el valor de lo que realmente paga el cliente por los carritos luego de aplicarle los descuentos)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+<b>Si el cliente</b> en un determinado mes, <b>no realizó</b> compras, deja de ser VIP si lo era.
 
-## Further help
+# Stack
+La aplicación deberá estar utilizar las siguientes pautas y tecnologías (utilice todo o lo que más conoce:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Angular 7 o +
+Java 6+
+Css
+Spring 5+ / Springboot
+JPA / Hibernate
+Exponer servicios REST (agregar proyecto postman. Usar Swagger /open API)
+Exponer servicios SOAP (agregar proyecto SOAP UI)
+Test Unitarios Junit /Mockito
+Scripts SQL
+
+Se valorará la implementación de algún caso y/o método de testing unitario

@@ -1,0 +1,89 @@
+<div class="container" *ngIf="cart">
+  <div class="header-actions">
+    <h2>Carrito #{{ cart.id }} - <span [ngClass]="cart.state.toLowerCase()">{{ cart.state }}</span></h2>
+    <div class="actions" *ngIf="!isReadonly">
+      <button class="btn btn-danger" (click)="deleteCart()">Eliminar Carrito</button>
+      <button class="btn btn-success" (click)="finalizePurchase()">Finalizar Compra</button>
+    </div>
+  </div>
+
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+
+  <div class="info-panels">
+    <div class="panel">
+      <h3>Información del Cliente</h3>
+      <p><strong>ID:</strong> {{ cart.cliente.id }}</p>
+      <p><strong>Nombre:</strong> {{ cart.cliente.nombre }} {{ cart.cliente.apellido }}</p>
+      <p><strong>VIP:</strong> {{ cart.cliente.esVip ? 'Sí' : 'No' }}</p>
+    </div>
+    
+    <div class="panel">
+      <h3>Resumen del Carrito</h3>
+      <p><strong>Tipo:</strong> {{ cart.tipo }}</p>
+      <p><strong>Fecha Creación:</strong> {{ cart.dateCreated }}</p>
+      <p><strong>Monto Bruto:</strong> ${{ cart.montoBruto | number:'1.2-2' }}</p>
+      <p><strong>Descuento:</strong> <span class="discount">-${{ cart.descuento | number:'1.2-2' }}</span></p>
+      <p class="total"><strong>Total a Pagar:</strong> ${{ cart.total | number:'1.2-2' }}</p>
+    </div>
+  </div>
+
+  <div class="products-section">
+    <h3>Productos en el Carrito</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio Unit.</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th *ngIf="!isReadonly">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cart.detalles">
+          <td>{{ item.productoNombre }} (ID: {{ item.productoId }})</td>
+          <td>${{ item.precioUnitario | number:'1.2-2' }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>${{ item.subtotal | number:'1.2-2' }}</td>
+          <td *ngIf="!isReadonly">
+            <button class="btn-small btn-warning" (click)="removeProduct(item.productoId, 1)">-1</button>
+            <button class="btn-small btn-danger" (click)="removeProduct(item.productoId)">Quitar Todo</button>
+          </td>
+        </tr>
+        <tr *ngIf="cart.detalles.length === 0">
+          <td colspan="5" class="text-center">El carrito está vacío.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="add-product-section panel" *ngIf="!isReadonly">
+    <h3>Agregar Producto</h3>
+    <div class="form-inline">
+      <div class="form-group">
+        <label>Producto:</label>
+        <select [(ngModel)]="selectedProductId">
+          <option [ngValue]="null" disabled>Seleccione un producto</option>
+          <option *ngFor="let prod of products" [ngValue]="prod.id">
+            {{ prod.nombre }} (${{ prod.precio }})
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Cantidad:</label>
+        <input type="number" [(ngModel)]="selectedQuantity" min="1">
+      </div>
+      <button class="btn btn-primary" (click)="addProduct()" [disabled]="!selectedProductId">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<div class="container text-center" *ngIf="!cart && !errorMessage">
+  <p>Cargando carrito...</p>
+</div>
+
+<div class="container" *ngIf="!cart && errorMessage">
+  <div class="alert error">{{ errorMessage }}</div>
+  <button class="btn btn-secondary" routerLink="/carts">Volver</button>
+</div>

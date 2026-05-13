@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Gestión de Clientes VIP</h2>
+
+  <div class="controls-panel">
+    <div class="actions">
+      <button class="btn btn-primary" (click)="loadVipClients()">Ver VIPs Actuales</button>
+    </div>
+
+    <div class="date-filters">
+      <div class="form-group">
+        <label>Año</label>
+        <input type="number" [(ngModel)]="queryAnio" min="2000">
+      </div>
+      <div class="form-group">
+        <label>Mes</label>
+        <input type="number" [(ngModel)]="queryMes" min="1" max="12">
+      </div>
+      <div class="actions">
+        <button class="btn btn-success" (click)="loadNewVipClients()">Nuevos VIPs</button>
+        <button class="btn btn-danger" (click)="loadLostVipClients()">Perdieron VIP</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="results-panel">
+    <h3>{{ viewTitle }}</h3>
+    <table class="table" *ngIf="clients.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>DNI</th>
+          <th>Es VIP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td>{{ client.id }}</td>
+          <td>{{ client.nombre }}</td>
+          <td>{{ client.apellido }}</td>
+          <td>{{ client.dni }}</td>
+          <td>{{ client.esVip ? 'Sí' : 'No' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="clients.length === 0 && !errorMessage" class="no-data">
+      No hay clientes para mostrar bajo este criterio.
+    </p>
+  </div>
+</div>

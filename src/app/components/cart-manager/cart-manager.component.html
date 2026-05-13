@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>Gestión de Carritos</h2>
+
+  <div class="card error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="cards-container">
+    <div class="card">
+      <h3>Crear Nuevo Carrito</h3>
+      <div class="form-group">
+        <label>ID de Cliente (Obligatorio)</label>
+        <input type="number" [(ngModel)]="clienteId" placeholder="Ej: 1, 2, 3">
+        <small>Simula ser uno de los clientes en la base de datos.</small>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha Simulada (Opcional)</label>
+        <input type="date" [(ngModel)]="fechaSimulada">
+        <small>Sirve para probar promociones de Fecha Especial.</small>
+      </div>
+
+      <button (click)="crearCarrito()" class="btn btn-primary">Crear Carrito</button>
+    </div>
+
+    <div class="card">
+      <h3>Consultar Carrito Existente</h3>
+      <div class="form-group">
+        <label>ID de Carrito</label>
+        <input type="number" [(ngModel)]="cartIdToLoad" placeholder="Ej: 1">
+      </div>
+      <button (click)="cargarCarrito()" class="btn btn-secondary" [disabled]="!cartIdToLoad">Ver Carrito</button>
+    </div>
+  </div>
+</div>
